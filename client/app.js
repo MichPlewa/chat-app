@@ -1,3 +1,5 @@
+const socket = io();
+
 const loginForm = document.getElementById('welcome-form');
 const messagesSection = document.getElementById('messages-section');
 const addMessageForm = document.getElementById('add-messages-form');
@@ -7,13 +9,21 @@ const messagesContentInput = document.getElementById('message-content');
 
 let userName = '';
 
+socket.on('message', ({ author, content }) => {
+  addMessage(author, content);
+});
+
 const sendMessage = (e) => {
   e.preventDefault();
 
-  if (!messagesContentInput) {
+  let messageContent = messagesContentInput.value;
+
+  if (!messageContent) {
     alert(`Message can't be empty`);
   } else {
-    addMessage(userName, messagesContentInput.value);
+    addMessage(userName, messageContent);
+    socket.emit('message', { author: userName, content: messageContent });
+    messagesContentInput.value = '';
   }
 };
 

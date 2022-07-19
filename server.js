@@ -1,7 +1,9 @@
 const express = require('express');
 const path = require('path');
+const socket = require('socket.io');
 
 const app = express();
+const io = socket(server);
 
 let messages = [];
 
