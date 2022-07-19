@@ -12,6 +12,9 @@ let userName = '';
 socket.on('message', ({ author, content }) => {
   addMessage(author, content);
 });
+socket.on('join', ({ author, content }) => {
+  addMessage(author, content);
+});
 
 const sendMessage = (e) => {
   e.preventDefault();
@@ -36,11 +39,17 @@ const addMessage = (author, content) => {
   if (author === userName) {
     message.classList.add('message--self');
   }
-
-  message.innerHTML = `
+  if (author === 'Chat Bot') {
+    message.innerHTML = `
+    <h3 class='message_author'>${userName === author ? 'You' : author}</h3>
+    <div class='message_content'>
+      <em>${content}</em>
+    </div>`;
+  } else {
+    message.innerHTML = `
   <h3 class='message_author'>${userName === author ? 'You' : author}</h3>
   <div class='message_content'>${content}</div>`;
-
+  }
   messagesList.appendChild(message);
 };
 
@@ -54,6 +63,7 @@ const login = (e) => {
 
     loginForm.classList.remove('show');
     messagesSection.classList.add('show');
+    socket.emit('join', { name: userName });
   }
 };
 
