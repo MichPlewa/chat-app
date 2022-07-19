@@ -3,17 +3,17 @@ const messagesSection = document.getElementById('messages-section');
 const addMessageForm = document.getElementById('add-messages-form');
 const messagesList = document.getElementById('messages-list');
 const userNameInput = document.getElementById('username');
-const messageContentInput = document.getAnimations('message-content');
+const messagesContentInput = document.getElementById('message-content');
 
 let userName = '';
 
 const sendMessage = (e) => {
   e.preventDefault();
 
-  if (!messageContentInput) {
+  if (!messagesContentInput) {
     alert(`Message can't be empty`);
   } else {
-    addMessage(userName, messageContentInput.value);
+    addMessage(userName, messagesContentInput.value);
   }
 };
 
